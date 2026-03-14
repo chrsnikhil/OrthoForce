@@ -147,7 +147,11 @@ function PatientDashboard({ setRole }: { setRole: (v: Role) => void }) {
 
     // First attempt to grab thresholds right at connection
     try {
-        const threshRes = await fetch(`${baseEndpoint}/threshold`);
+        const threshRes = await fetch(`${baseEndpoint}/threshold`, {
+            headers: {
+                "ngrok-skip-browser-warning": "true",
+            }
+        });
         if(threshRes.ok) {
             const threshJson = await threshRes.json();
              setThresholdOn(threshJson.thresholdOn?.toString() || "");
@@ -160,7 +164,13 @@ function PatientDashboard({ setRole }: { setRole: (v: Role) => void }) {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`${baseEndpoint}/fsr`, { cache: "no-store", mode: 'cors' });
+        const response = await fetch(`${baseEndpoint}/fsr`, { 
+            cache: "no-store", 
+            mode: 'cors',
+            headers: {
+                "ngrok-skip-browser-warning": "true",
+            }
+        });
         if (!response.ok) throw new Error("Network response was not ok");
 
         const json: FSRData = await response.json();
@@ -216,7 +226,10 @@ function PatientDashboard({ setRole }: { setRole: (v: Role) => void }) {
           const updateEndpoint = cleanIP.startsWith("http") ? `${cleanIP}/threshold` : `/api/esp32/${cleanIP}/threshold`;
           const res = await fetch(updateEndpoint, {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: { 
+                  "Content-Type": "application/json",
+                  "ngrok-skip-browser-warning": "true"
+              },
               body: JSON.stringify({ thresholdOn: onVal, thresholdOff: offVal })
           });
 
