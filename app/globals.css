@@ -1,26 +1,140 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-space: "Space Mono", monospace;
+  --font-plex: "IBM Plex Mono", monospace;
+
+  --color-neo-black: #0A0A0A;
+  --color-neo-white: #FAFAFA;
+  --color-neo-yellow: #FFE500;
+  --color-neo-red: #FF2D2D;
+  --color-neo-green: #00FF85;
+  --color-neo-blue: #0047FF;
+  --color-neo-gray: #C8C8C8;
+  --color-neo-paper: #F5F0E8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  body {
+    background-color: var(--color-neo-white);
+    color: var(--color-neo-black);
+    font-family: var(--font-plex);
+    /* Thick top border */
+    border-top: 6px solid var(--color-neo-black);
+    min-height: 100vh;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-space);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Common Neobrutalism Borders */
+  .neo-border {
+    border: 3px solid var(--color-neo-black);
+  }
+  
+  /* Neobrutalism Box Shadows */
+  .neo-shadow {
+    box-shadow: 4px 4px 0px var(--color-neo-black);
+  }
+  
+  .neo-shadow-lg {
+    box-shadow: 6px 6px 0px var(--color-neo-black);
+  }
+
+  /* Cards */
+  .neo-card {
+    background-color: var(--color-neo-paper);
+    border: 3px solid var(--color-neo-black);
+    box-shadow: 6px 6px 0px var(--color-neo-black);
+    padding: 32px;
+  }
+
+  .neo-card-header {
+    font-family: var(--font-space);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-neo-black);
+    border-bottom: 2px solid var(--color-neo-black);
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+  }
+
+  /* Badges */
+  .neo-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-family: var(--font-space);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 2px solid var(--color-neo-black);
+  }
+
+  .neo-badge-normal {
+    background-color: var(--color-neo-green);
+    color: var(--color-neo-black);
+  }
+  
+  .neo-badge-exceeded {
+    background-color: var(--color-neo-red);
+    color: var(--color-neo-white);
+  }
+  
+  .neo-badge-idle {
+    background-color: var(--color-neo-gray);
+    color: var(--color-neo-black);
+  }
+
+  /* Progress Bar */
+  .neo-progress-container {
+    width: 100%;
+    height: 24px;
+    background-color: var(--color-neo-white);
+    border: 3px solid var(--color-neo-black);
+  }
+  
+  .neo-progress-fill {
+    height: 100%;
+    background-color: var(--color-neo-blue);
+    transition: width 0.3s linear, background-color 0s;
+  }
+
+  .neo-progress-fill.exceeded {
+    background-color: var(--color-neo-red);
+  }
+
+  /* Status Banner */
+  .neo-alert {
+    background-color: var(--color-neo-yellow);
+    border: 3px solid var(--color-neo-black);
+    border-left: 8px solid var(--color-neo-black);
+    padding: 16px 20px;
+    font-family: var(--font-space);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .neo-alert.danger {
+    background-color: var(--color-neo-red);
+    color: var(--color-neo-white);
+  }
+
+  /* Blink animation (step-end) */
+  @keyframes neo-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  .neo-blink {
+    animation: neo-blink 0.8s step-end infinite;
+  }
 }
