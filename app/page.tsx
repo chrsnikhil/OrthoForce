@@ -143,7 +143,8 @@ function PatientDashboard({ setRole }: { setRole: (v: Role) => void }) {
 
     if (intervalRef.current) clearInterval(intervalRef.current);
 
-    const baseEndpoint = `/api/esp32/${ipAddress}`;
+    // Use the full URL if given (like ngrok), otherwise assume it's an IP and prepend http://
+    const baseEndpoint = ipAddress.startsWith("http") ? ipAddress : `/api/esp32/${ipAddress}`;
 
     // First attempt to grab thresholds right at connection
     try {
@@ -212,7 +213,8 @@ function PatientDashboard({ setRole }: { setRole: (v: Role) => void }) {
       setThresholdStatus({type: "idle", msg: "Syncing..."});
 
       try {
-          const res = await fetch(`/api/esp32/${ipAddress}/threshold`, {
+          const updateEndpoint = ipAddress.startsWith("http") ? `${ipAddress}/threshold` : `/api/esp32/${ipAddress}/threshold`;
+          const res = await fetch(updateEndpoint, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ thresholdOn: onVal, thresholdOff: offVal })
